@@ -29,13 +29,15 @@
             id="inputPassword"
           />
         </div>
-        <button  type="submit" class="btn btn-primary">Submit</button>
+        <button  @click.prevent="signUp"  type="submit" class="btn btn-primary" >Submit</button>
       </div>
     </form>
   </main>
 </template>
 
 <script>
+  
+import axios from "axios";
   export default {
     name : 'SignUp',
     data (){
@@ -45,6 +47,25 @@
           email: null,
           password: null
         }
+      }
+    },
+    methods : {
+      
+      signUp(){
+        console.log('1');
+          axios.post(
+          "http://localhost:8080/api/user/signup",
+          {
+            email: this.email,
+            pseudo: this.username,
+            password: this.password,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
       }
     }
   }
