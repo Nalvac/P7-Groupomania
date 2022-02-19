@@ -15,7 +15,7 @@
       <div class="block-demi-container p-3">
         <div class="form-group">
           <label for="inputUsername">Username</label>
-          <input type="text" class="form-control" id="inputUsername" />
+          <input type="text" class="form-control" id="inputUsername" v-model="dataLogin.username" />
         </div>
         <div class="form-group">
           <label for="inputPassword">Password</label>
@@ -23,9 +23,10 @@
             type="password"
             class="form-control"
             id="inputPassword"
+            v-model="dataLogin.password"
           />
         </div>
-        <button type="submit" class="btn btn-primary" >Submit</button>
+        <button type="submit" class="btn btn-primary" @click="login">Submit</button>
       </div>
     </form>
   </main>
@@ -33,6 +34,29 @@
 
 <script>
  
+    export default {
+        name : 'Login',
+        data (){
+            return {
+                dataLogin : {
+                    username: null,
+                    password: null
+                }
+            }
+        },
+        computed :  {
+
+        },
+        methods : {
+            login(){
+                if (this.dataLogin.username != null && this.dataLogin.password != null){
+                    
+                    console.log( this.dataLogin);
+                }
+            }
+        }
+
+    }
 
 </script>
 

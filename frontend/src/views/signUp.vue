@@ -36,7 +36,18 @@
 </template>
 
 <script>
-
+  export default {
+    name : 'SignUp',
+    data (){
+      return {
+        dataSignUp :  {
+          username: null,
+          email: null,
+          password: null
+        }
+      }
+    }
+  }
 </script>
 
 <style lang="scss">
