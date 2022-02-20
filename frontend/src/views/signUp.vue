@@ -29,7 +29,7 @@
             id="inputPassword"
           />
         </div>
-        <button  @click.prevent="signUp"  type="submit" class="btn btn-primary" >Submit</button>
+        <button  @click.prevent="signup"  type="submit" class="btn btn-primary" >Submit</button>
       </div>
     </form>
   </main>
@@ -43,21 +43,23 @@ import axios from "axios";
     data (){
       return {
         dataSignUp :  {
+          email: null,          
           username: null,
-          email: null,
           password: null
         }
       }
     },
     methods : {
+    signup() {
       
-      signUp(){
-        console.log('1');
-          axios.post(
-          "http://localhost:8080/api/user/signup",
+      console.log('Bonjour'),
+      axios
+        .post(
+          // inscription
+          "http://localhost:3000/api/user/signup",
           {
             email: this.email,
-            pseudo: this.username,
+            pseudo: this.pseudo,
             password: this.password,
           },
           {
@@ -66,7 +68,15 @@ import axios from "axios";
             },
           }
         )
-      }
+        .then(() => {
+          
+              console.log("Bonjour");
+        })
+        .catch(error => {
+            console.log(error)
+        });
+    },
+
     }
   }
 </script>

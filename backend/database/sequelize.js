@@ -2,19 +2,16 @@ const { Sequelize, DataTypes } = require("sequelize");
 const bcrypt = require("bcrypt");
 
 const UserModel = require("../models/User");
+
+const CommentModel = require("../models/Comment");
 require('dotenv').config();
 
 const dataBase = new Sequelize(
-    `${process.env.DB_NAME}`, // nom de la bdd
-    `${process.env.DB_USER}`, // nom utilisateur
-    `${process.env.DB_PASSWORD}`, // mdp utilisateur    
-    {
-        host: `${process.env.DB_HOST}`, // où se trouve la bdd
-        dialect: "mysql", // dialecte pour sequelize pour interragir avec la bdd
-        dialectOptions: {
-            timezone: "Etc/GMT-2",
-        },
-
+    `${process.env.DB_NAME}`,
+    `${process.env.DB_USER}`,
+    `${process.env.DB_PASSWORD}`, {
+        host: `${process.env.DB_HOST}`,
+        dialect: "mysql",
     }
 )
 
@@ -27,6 +24,7 @@ dataBase
 
 const User = UserModel(dataBase, DataTypes);
 
+const Comment = CommentModel(dataBase, DataTypes);
 
 const initDb = () => {
     return dataBase.sync({ force: true }).then(() => {
@@ -35,11 +33,11 @@ const initDb = () => {
                 email: `${process.env.ADMIN_EMAIL}`,
                 pseudo: `${process.env.ADMIN_PSEUDO}`,
                 password: hash,
-                isAdmin: true,
+                isAdmin: false,
             }).then((user) => console.log(user.toJSON()));
         });
         console.log("la base de données est initialisée.");
     });
 };
 
-module.exports = { initDb, User };
+module.exports = { initDb, User, Comment };

@@ -1,6 +1,7 @@
 const express = require("express");
 const http = require("http")
-const userRoute = require("./routes/user");
+const userRoutes = require("./routes/user");
+const commentsRoutes = require('./routes/comment')
 const sequelize = require("./database/sequelize")
 const db = require("./database/sequelize");
 const app = express();
@@ -22,5 +23,7 @@ app.use((req, res, next) => {
 // connexion avec la bdd
 sequelize.initDb();
 
-app.use("/api/user", userRoute);
+app.use("/api/user", userRoutes);
+app.use("/api/comment", commentsRoutes);
+
 module.exports = app;

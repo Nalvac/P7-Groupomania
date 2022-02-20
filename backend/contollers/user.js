@@ -1,7 +1,8 @@
-const User = require("../models/User");
+const { User } = require("../database/sequelize");
 const bcrypt = require("bcrypt");
 
 const { ValidationError, UniqueConstraintError } = require("sequelize");
+
 exports.signUp = (req, res, next) => {
 
     bcrypt.hash(req.body.password, 10).then(hash => {
