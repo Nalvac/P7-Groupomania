@@ -48,3 +48,15 @@ $gris: #797676;
 .btn {
     margin-top: 10px;
 }
+
+.container-fluid,
+.container-lg,
+.container-md,
+.container-sm,
+.container-xl {
+    width: 100%;
+    padding-right: 0;
+    padding-left: 0;
+    margin-right: auto;
+    margin-left: auto;
+}
