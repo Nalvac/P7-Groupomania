@@ -8,19 +8,19 @@
             </div>
             <div class="form-group">
                 <label for="exampleInputPassword1">Nom</label>
-                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Nom">
+                <input type="name" class="form-control" id="exampleInputPassword1" placeholder="Nom">
             </div>
             <div class="form-group">
                 <label for="exampleInputPassword1">Prenom</label>
-                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Prenom">
+                <input type="name" class="form-control" id="exampleInputPassword1" placeholder="Prenom">
             </div>
             <div class="form-group">
                 <label for="exampleInputPassword1">Pseudo</label>
-                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Pseudo">
+                <input type="name" class="form-control" id="exampleInputPassword1" placeholder="Pseudo">
             </div>
             <div class="form-group">
                 <label for="exampleInputPassword1">Poste actuel</label>
-                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Poste actuel">
+                <input type="name" class="form-control" id="exampleInputPassword1" placeholder="Poste actuel">
             </div>
             <div class="form-group">
                 <label for="exampleInputEmail1">Email address</label>

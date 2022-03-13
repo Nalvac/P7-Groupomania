@@ -8,7 +8,7 @@
         <p>
           <small>
             Vous avez déjà un compte,
-            <router-link class="redirection-singup" to="/login">connecter-vous</router-link>
+            <router-link class="redirection-singup" to="/">connecter-vous</router-link>
           </small>
         </p>
       </div>
@@ -79,8 +79,8 @@ export default {
         alert("Votre inscription est validé.");
         this.$router.replace("/home");
         })
-        .catch((e) => {
-          this.error = e.response.data.message.replace("Validation error:", "");
+        .catch( error => {
+          this.error = error.response.data.message.replace("Validation error:", "");
         });
     },
   },

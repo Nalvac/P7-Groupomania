@@ -30,9 +30,9 @@ const routes = [{
     {
         path: '/new',
         name: 'new',
-        component: () => {
-            import ('../views/profil.vue')
-        }
+        component: () =>
+            import ('../views/new-post.vue')
+
     }
 
 ]

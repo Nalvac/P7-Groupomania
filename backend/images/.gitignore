@@ -1,3 +1,0 @@
-// Ne pas envoyer sur github tout les fichiers du dossier (images) exepté le fichier .gitignore
-*
-!.gitignore

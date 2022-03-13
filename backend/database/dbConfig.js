@@ -1,11 +1,8 @@
-const { Sequelize, DataTypes } = require("sequelize");
-const bcrypt = require("bcrypt");
-const UserModel = require("../models/User");
-const PostModel = require("../models/Post");
-const CommentModel = require("../models/Comment");
-require("dotenv").config();
+const { Sequelize, DataTypes } = require('sequelize');
 
-// création d'une instance sequelize (paramètres de connexions)
+const userModel = require('../models/User')
+require('dotenv').config();
+const bcrypt = require("bcrypt");
 const dataBase = new Sequelize(
     `${process.env.DB_NAME}`, // nom de la bdd
     `${process.env.DB_USER}`, // nom utilisateur
@@ -18,21 +15,16 @@ const dataBase = new Sequelize(
         },
         login: false,
     }
-);
+)
 
-// test de la connexion
-dataBase
-    .authenticate()
-    .then(() => console.log("Connexion à la base de données réussie"))
-    .catch((error) =>
-        console.log("Impossible de se connecter à la base de données")
-    );
+dataBase.authenticate().then(() => {
+    console.log("Connexion Réussie");
+}).catch(error => {
+    console.log("Impossible de se connecter à la base de données" + error)
+})
 
-const Post = PostModel(dataBase, DataTypes);
-const User = UserModel(dataBase, DataTypes);
-const Comment = CommentModel(dataBase, DataTypes);
+const User = userModel(dataBase, DataTypes)
 
-// initialiser la bdd avec la création d'un administrateur
 const initDb = () => {
     return dataBase.sync({ force: true }).then(() => {
         bcrypt.hash(`${process.env.ADMIN_PASSWORD}`, 10).then((hash) => {
@@ -47,4 +39,4 @@ const initDb = () => {
     });
 };
 
-module.exports = { initDb, User, Post, Comment };
+module.exports = { initDb, User };

@@ -60,12 +60,6 @@ export default {
         )
         .then((user) => {
           console.log(user);
-          localStorage.setItem("user", JSON.stringify(user.data.data)); // envoie de données dans le localstorage
-          localStorage.setItem("pseudo", user.data.data.pseudo);
-          localStorage.setItem("email", user.data.data.email);
-          localStorage.setItem("id", user.data.data.id);
-          localStorage.setItem("isAdmin", user.data.data.isAdmin);
-          localStorage.setItem("token", user.data.token);
           this.$router.replace("/home");
         })
         .catch((e) => {

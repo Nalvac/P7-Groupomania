@@ -1,41 +1,30 @@
-const express = require("express");
-const helmet = require("helmet");
-const bodyParser = require("body-parser");
-const userRoutes = require("./routes/user");
-const postsRoutes = require("./routes/post");
-const commentsRoutes = require("./routes/comment.js");
-const path = require("path");
+const express = require('express');
+const sequelize = require('./database/dbConfig')
+const userRoute = require('./routes/user')
+require('dotenv').config();
 const app = express();
-const sequelize = require("./database/sequelize");
-require("dotenv").config();
 
-app.use(helmet());
+app.use(express.json());
 
-//gestion du cors
-
+// Gestion des CORS
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
-  );
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, PUT, DELETE, PATCH, OPTIONS"
-  );
-  next();
-});
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader(
+        "Access-Control-Allow-Headers",
+        "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
+    );
+    res.setHeader(
+        "Access-Control-Allow-Methods",
+        "GET, POST, PUT, DELETE, PATCH, OPTIONS"
+    );
+    next();
+})
 
-//récupération des requêtes dans req.body
-app.use(bodyParser.json());
-//traitement des fichiers
-app.use("/images", express.static(path.join(__dirname, "images")));
+// Corps des requêtes des req.body
 
-// connexion avec la bdd
+app.use(express.json());
+
 sequelize.initDb();
 
-app.use("/api/user", userRoutes);
-app.use("/api/post", postsRoutes);
-app.use("/api/comment", commentsRoutes);
-
+app.use('/api/user', userRoute)
 module.exports = app;

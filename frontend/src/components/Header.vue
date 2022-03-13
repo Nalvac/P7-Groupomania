@@ -33,7 +33,7 @@
 
   methods: {
     addPost (){
-      this.$router.replace("/newp");
+      this.$router.replace("/new");
     }
   }
 }
