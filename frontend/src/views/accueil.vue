@@ -1,17 +1,23 @@
 <template>
   <Header />
-  <Post/>
+  <AllPost  />
 </template>
 <script>
-
 import Header from "../components/Header.vue";
-import Post from "../components/post.vue";
+import AllPost from "../components/getAllPost.vue"
 export default {
   name: "Accueil",
   components: {
     Header,
-    Post,
-  }
+    AllPost,
+  },
+  data() {
+    return {
+      posts: []
+    }
+  },
+  methods: { },
+
 }
 
 </script>

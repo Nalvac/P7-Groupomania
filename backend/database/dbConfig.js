@@ -1,6 +1,7 @@
 const { Sequelize, DataTypes } = require('sequelize');
 
 const userModel = require('../models/User')
+const postModel = require('../models/post');
 require('dotenv').config();
 const bcrypt = require("bcrypt");
 const dataBase = new Sequelize(
@@ -23,7 +24,8 @@ dataBase.authenticate().then(() => {
     console.log("Impossible de se connecter à la base de données" + error)
 })
 
-const User = userModel(dataBase, DataTypes)
+const User = userModel(dataBase, DataTypes);
+const Post = postModel(dataBase, DataTypes);
 
 const initDb = () => {
     return dataBase.sync({ force: true }).then(() => {
@@ -39,4 +41,4 @@ const initDb = () => {
     });
 };
 
-module.exports = { initDb, User };
+module.exports = { initDb, User, Post };

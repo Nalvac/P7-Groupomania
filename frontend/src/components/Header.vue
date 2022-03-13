@@ -34,6 +34,9 @@
   methods: {
     addPost (){
       this.$router.replace("/new");
+    },
+    disconnect(){
+      this.$router.replace("/")
     }
   }
 }
