@@ -35,6 +35,9 @@ module.exports = (sequelize, DataTypes) => {
                 notNull: { msg: "Veuillez entrer un mot de passe." },
             },
         },
+        imgProfil: {
+            type: DataTypes.STRING,
+        },
         isAdmin: {
             type: DataTypes.BOOLEAN,
             defaultValue: false, // true permet d'avoir des droits d'administrateur (suppression de tous les posts ou commentaires)

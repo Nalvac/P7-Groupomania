@@ -1,12 +1,34 @@
 <template>
   <Header /> 
-  <Post    
-    v-for="post in posts"
+  <Post  
+      
+    v-for="(post, index) in posts"
     :key="post"
     :author="post.author"
     :post="post.post"
     :posterId="post.posterId"
     :imgUrl="post.imgUrl"
+    :id="post.id"
+    :cunt="cunt[index]"
+    :updatedAt="
+        new Date(post.updatedAt).toLocaleDateString('fr-FR', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          hour: 'numeric',
+          minute: 'numeric',
+        })
+      "
+      :createdAt="
+        new Date(post.createdAt).toLocaleDateString('fr-FR', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          hour: 'numeric',
+          minute: 'numeric',
+        })
+      "
+    
   />
 </template>
 <script>
@@ -22,7 +44,10 @@ export default {
   },
   data() {
     return {
-      posts: []
+      posts: [],
+      comments: [],
+      cunt: [],
+      index: Number
     }
   },
   methods: { },
@@ -36,8 +61,26 @@ export default {
       })
       .then((post) => {
         this.posts = post.data.data; 
+        for(let i=0 ; i<this.posts.length ; i++ ) {
+            axios
+            .get(`http://localhost:3000/api/comment/${this.posts[i].id}`, {
+            headers: {
+                "Content-Type": "application/json",
+            },
+            })
+            .then((comments) => {
+              console.log(comments.data.comments.length);
+              this.cunt.push((comments.data.comments.length));
+            });
+        }
       });
   },
 }
 
 </script>
+
+<style scoped lang="scss">
+.content {
+    padding-top: 4px;
+}
+</style>

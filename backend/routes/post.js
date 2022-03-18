@@ -5,7 +5,7 @@ const router = express.Router();
 
 const postCtrl = require("../controllers/post");
 
-router.post('/', auth, multer, postCtrl.addPost);
-router.get('/', auth, postCtrl.getAllPost);
+router.post('/', multer, postCtrl.addPost);
+router.get('/', postCtrl.getAllPost);
 
 module.exports = router;

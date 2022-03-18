@@ -2,7 +2,9 @@ const { Sequelize, DataTypes } = require('sequelize');
 
 const userModel = require('../models/User')
 const postModel = require('../models/post');
+const CommentModel = require('../models/comments')
 require('dotenv').config();
+
 const bcrypt = require("bcrypt");
 const dataBase = new Sequelize(
     `${process.env.DB_NAME}`, // nom de la bdd
@@ -26,7 +28,7 @@ dataBase.authenticate().then(() => {
 
 const User = userModel(dataBase, DataTypes);
 const Post = postModel(dataBase, DataTypes);
-
+const Comment = CommentModel(dataBase, DataTypes);
 const initDb = () => {
     return dataBase.sync({ force: true }).then(() => {
         bcrypt.hash(`${process.env.ADMIN_PASSWORD}`, 10).then((hash) => {
@@ -41,4 +43,4 @@ const initDb = () => {
     });
 };
 
-module.exports = { initDb, User, Post };
+module.exports = { initDb, User, Post, Comment };

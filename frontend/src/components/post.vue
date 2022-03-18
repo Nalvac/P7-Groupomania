@@ -8,19 +8,25 @@
                         <div class="d-flex flex-row align-items-center"> <img src="https://i.imgur.com/UXdKE3o.jpg" width="50" class="rounded-circle">
                             <div class="d-flex flex-column ml-2"> <span class="font-weight-bold">{{ author }}</span> <small class="text-primary">Collegues</small> </div>
                         </div>
-                        <div class="d-flex flex-row mt-1 ellipsis"> <small class="mr-2">20 mins</small> <i class="fa fa-ellipsis-h"></i> </div>
+                        <div class="d-flex flex-row mt-1 ellipsis"> <small class="mr-2">{{ updatedAt }}</small> <i class="fa fa-ellipsis-h"></i> </div>
                     </div> <img :src="imgUrl" class="img-fluid">
                     <div class="p-2">
                         <p class="text-justify">{{ post }}</p>
                         <hr>
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="d-flex flex-row icons d-flex align-items-center"> <i class="fa fa-heart"></i> <i class="fa fa-smile-o ml-2"></i> </div>
-                            <div class="d-flex flex-row muted-color"> <span>2 Commentaires</span></div>
+                            <div class="d-flex flex-row muted-color">
+                                <span v-if="!getPost">{{cunt}} Commentaires</span>
+                                <span v-if="getPost">{{countComments}} Commentaires</span>
+                            </div>
                         </div>
                         <hr>
                         <div class="comments">
-                            <div class="comment-input"> <input type="text" class="form-control">
-                                <div class="fonts"> <i class="fa fa-camera"></i> </div>
+                            <div class="comment-input"> <input type="text" class="form-control" v-model="commentContent">
+                             
+                                <div class="fonts" @click="addComment(id)"
+                                type="button" > <i class="fa fa-paper-plane"></i> </div>
+                                    
                             </div>
                         </div>
                     </div>
@@ -32,9 +38,17 @@
 </div>
 </template>
 <script>
-
+import axios from "axios"
 export default {
     name: 'Post',
+    data() {
+         return {
+            commentContent: "",
+            comments: [],
+            countComments: 0,
+            getPost: false,
+        }
+    },
       props: {
     // interractions avec le composant parent
     author: {
@@ -65,7 +79,53 @@ export default {
       type: Number,
       required: true,
     },
+    cunt: {
+      type: Number,
+      required: true,
+    },
   },
+
+  methods: {
+      addComment(id) {
+          console.log(id);
+        axios
+        .post(
+          "http://localhost:3000/api/comment",
+          {
+            comment: this.commentContent,
+            author: this.author,
+            postId: id,
+            commenterId: this.commenterId,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        ).then((res) => {
+            console.log(res);
+            this.$commentContent = "";
+            
+            axios
+            .get(`http://localhost:3000/api/comment/${id}`, {
+            headers: {
+                "Content-Type": "application/json",
+            },
+            })
+            .then((comments) => {
+              this.getPost = true;
+              this.$comments = comments.data.comments;
+              this.countComments = this.$comments.length;
+              console.log(this.countComments);
+            });
+
+        },(error)=>{
+            console.log(error)
+        })
+      }
+  },
+    created() {
+  }
 }
 </script>
 
@@ -185,7 +245,7 @@ hr {
     box-shadow: none
 }
 .content {
-    padding-top: 5%;
+    padding-top: 5px;
 }
 
 </style>

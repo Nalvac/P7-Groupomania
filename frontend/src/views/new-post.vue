@@ -16,7 +16,7 @@
         </div>
         <div class="d-flex flex-row justify-content-around">
             <button type="submit" class="btn btn-primary">Publier</button>
-            <button type="submit" class="btn btn-danger">Annuler</button>
+            <button type="cancel" class="btn btn-danger">Annuler</button>
         </div>
     </form>
 </template>

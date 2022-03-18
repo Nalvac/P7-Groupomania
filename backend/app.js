@@ -2,6 +2,7 @@ const express = require('express');
 const sequelize = require('./database/dbConfig')
 const userRoute = require('./routes/user')
 const postsRoutes = require("./routes/post");
+const commentsRoutes = require("./routes/comment")
 require('dotenv').config();
 const path = require("path")
 const app = express();
@@ -28,4 +29,8 @@ app.use("/images", express.static(path.join(__dirname, "images")));
 app.use('/api/user', userRoute)
 
 app.use('/api/post', postsRoutes)
+
+
+app.use("/api/comment", commentsRoutes);
+
 module.exports = app;
