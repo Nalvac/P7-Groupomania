@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-
-
+import VueRouteMiddleware from "vue-route-middleware";
+import auth from "../auth/auth";
 const routes = [{
         path: '',
         name: 'Login',
@@ -19,7 +19,10 @@ const routes = [{
         path: '/home',
         name: 'home',
         component: () =>
-            import ('../views/accueil.vue')
+            import ('../views/accueil.vue'),
+        meta: {
+            middleware: auth, // middleware (vue-route-middleware)
+        },
     },
     {
         path: '/profil',
@@ -42,4 +45,5 @@ const router = createRouter({
     routes
 })
 
+router.beforeEach(VueRouteMiddleware());
 export default router

@@ -1,7 +1,7 @@
 <template>
     <Header />
     <form class="form-content" @submit.prevent="addPost()">            
-        <div class="form-group">
+        <div >
             <textarea  class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Quoi de neuf ?" v-model="message" required />
         <div class="form-group">
           <label for="formFile" class="form-label mt-4">Image :</label>
@@ -67,8 +67,10 @@ export default {
                 this.error = e.response.data.message
                     .replace("Validation error:", "")
                     .split(",")[0];
+
                 });
         },
+        
     }
 }
 </script>

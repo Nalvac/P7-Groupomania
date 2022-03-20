@@ -37,8 +37,10 @@ exports.addPost = (req, res, next) => {
                 return res.status(500).json({ message, data: error });
             });
     } else {
+        debugger;
         Post.create({
                 // création d'un post sans fichier image
+                author: author,
                 post: message,
                 posterId: posterId,
             })

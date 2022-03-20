@@ -29,6 +29,22 @@
                                     
                             </div>
                         </div>
+                        <div  v-bind:class="{ 'comment-scroll': comments.length > 3 || commentaires.length > 3}" v-if="comments.length > 0 || commentaires.length >0">
+                            <div v-if="!getPost">
+                                <div  class="commentaires-div" v-for="item in comments" :key="item.comment">
+                                    <h8>{{item.author}}</h8>
+                                    <br>
+                                    <span class="commentaires-text">{{item.comment}}</span>
+                                </div>
+                            </div>
+                            <div v-if="getPost">
+                                <div  class="commentaires-div" v-for="item in commentaires" :key="item.comment">
+                                    <h8>{{item.author}}</h8>
+                                    <br>
+                                    <span class="commentaires-text">{{item.comment}}</span>
+                            </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -44,9 +60,9 @@ export default {
     data() {
          return {
             commentContent: "",
-            comments: [],
             countComments: 0,
             getPost: false,
+            commentaires: ""
         }
     },
       props: {
@@ -83,6 +99,9 @@ export default {
       type: Number,
       required: true,
     },
+    comments: {
+        type: Array
+    }
   },
 
   methods: {
@@ -104,7 +123,6 @@ export default {
           }
         ).then((res) => {
             console.log(res);
-            this.$commentContent = "";
             
             axios
             .get(`http://localhost:3000/api/comment/${id}`, {
@@ -114,9 +132,8 @@ export default {
             })
             .then((comments) => {
               this.getPost = true;
-              this.$comments = comments.data.comments;
-              this.countComments = this.$comments.length;
-              console.log(this.countComments);
+              this.commentaires = comments.data.comments;
+              this.countComments = comments.data.comments.length;
             });
 
         },(error)=>{
@@ -128,7 +145,7 @@ export default {
   }
 }
 </script>
-
+ 
 <style scoped lang="scss">
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap");
 @import "./src/scss/global.scss";
@@ -245,7 +262,21 @@ hr {
     box-shadow: none
 }
 .content {
-    padding-top: 5px;
+    padding-top: 36px;
+}
+.commentaires-div {
+    margin-top: 5px;
+    padding: 10px;
+    background-color: aliceblue;
+    border-radius: 20px;
+    text-align: start;
+}
+.commentaires-text{
+    font-size: 13.5px;
+}
+.comment-scroll{
+    height: 210px;
+    overflow-y: scroll;
 }
 
 </style>

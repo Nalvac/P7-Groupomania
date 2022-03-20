@@ -1,7 +1,7 @@
 <template>
   <Header /> 
   <Post  
-      
+    
     v-for="(post, index) in posts"
     :key="post"
     :author="post.author"
@@ -9,6 +9,7 @@
     :posterId="post.posterId"
     :imgUrl="post.imgUrl"
     :id="post.id"
+    :comments="comments[index]"
     :cunt="cunt[index]"
     :updatedAt="
         new Date(post.updatedAt).toLocaleDateString('fr-FR', {
@@ -69,8 +70,10 @@ export default {
             },
             })
             .then((comments) => {
-              console.log(comments.data.comments.length);
+              this.comments.push((comments.data.comments));
+
               this.cunt.push((comments.data.comments.length));
+              console.log(this.comments)
             });
         }
       });
@@ -80,7 +83,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.content {
-    padding-top: 4px;
-}
+
 </style>

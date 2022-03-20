@@ -1,14 +1,12 @@
 <template>
-  <Header />
   <AllPost  />
+  <h1> </h1>
 </template>
 <script>
-import Header from "../components/Header.vue";
 import AllPost from "../components/getAllPost.vue"
 export default {
   name: "Accueil",
   components: {
-    Header,
     AllPost,
   },
   data() {

@@ -7,16 +7,8 @@
                  <a href="#" class="color: primary">Changer votre photo</a>
             </div>
             <div class="form-group">
-                <label for="exampleInputPassword1">Nom</label>
-                <input type="name" class="form-control" id="exampleInputPassword1" placeholder="Nom">
-            </div>
-            <div class="form-group">
-                <label for="exampleInputPassword1">Prenom</label>
-                <input type="name" class="form-control" id="exampleInputPassword1" placeholder="Prenom">
-            </div>
-            <div class="form-group">
                 <label for="exampleInputPassword1">Pseudo</label>
-                <input type="name" class="form-control" id="exampleInputPassword1" placeholder="Pseudo">
+                <input type="name" class="form-control" id="exampleInputPassword1" v-bind:placeholder="pseudo">
             </div>
             <div class="form-group">
                 <label for="exampleInputPassword1">Poste actuel</label>
@@ -24,12 +16,12 @@
             </div>
             <div class="form-group">
                 <label for="exampleInputEmail1">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Adresse Email">
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" v-bind:placeholder="email">
                 <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
             </div>
             <div class="d-flex flex-row justify-content-around">
-                <button type="submit" class="btn btn-primary">Enregistrer</button>
-                <button type="submit" class="btn btn-danger">Annuler</button>
+                <button type="submit" class="btn btn-primary" @click="updateProfil()">Enregistrer</button>
+                <button type="cancel" class="btn btn-danger">Annuler</button>
             </div>
         </form>
     </div>
@@ -41,7 +33,19 @@ export default {
     components: {
         Header,
 
-    }
+    },
+    data() {
+        return {
+            pseudo: localStorage.getItem("pseudo"),
+            email: localStorage.getItem("email"),
+            userId: localStorage.getItem("id"),
+            isAdmin: localStorage.getItem("isAdmin"),
+        }
+    },
+    created() {
+
+    },
+    methods: {}
 }
 </script>
 <style scoped lang="scss">
