@@ -5,11 +5,11 @@
         <div class="row d-flex align-items-center justify-content-center">
             <div class="col-md-6 border border-secondary">
                 <div class="card">
-                    <div class="d-flex justify-content-between p-2 px-3">
-                        <div class="d-flex flex-row align-items-center"> <img :src="imgProfil" width="50" class="rounded-circle">
+                    <div class="post-header">
+                        <div class="d-flex flex-row align-items-center getOnePost"> <img :src="postProfil" width="50" class="rounded-circle">
                             <div class="d-flex flex-column ml-2"> <span class="font-weight-bold">{{ author }}</span> <small class="text-primary">{{poste}}</small> </div>
                         </div>
-                        <div class="d-flex flex-row mt-1 ellipsis"> <small class="mr-2">{{ updatedAt }}</small> 
+                        <div class="d-flex flex-row  ellipsis"> <small class="mr-2">{{ updatedAt }}</small> 
                             <i v-if="author === name " id="show-modal" @click="deletePost(id)" class="fa fa-ellipsis-h"></i> 
                         </div>
                            <vue-confirm-dialog></vue-confirm-dialog>
@@ -60,7 +60,6 @@
                                     <div class="commentaires-text" v-if="item.author === name" style="display: flex;
                                         justify-content: space-around;"> 
                                         <a  @click="deleteCommentaire(item.id)">Supprimer</a> 
-                                        <a >Modifier</a>   
                                     </div>                        
                                 </div>
                             </div>
@@ -85,7 +84,6 @@ export default {
             getPost: false,
             commentaires: "",
             name: localStorage.getItem('pseudo'),
-            imgProfil:  localStorage.getItem("imgProfil") ? localStorage.getItem("imgProfil"): "https://cdn-icons-png.flaticon.com/512/64/64572.png",
 
         }
     },
@@ -104,6 +102,10 @@ export default {
       required: true,
     },
     imgUrl: {
+      type: String,
+      required: true,
+    }, 
+    postProfil:{
       type: String,
       required: true,
     },
@@ -188,7 +190,7 @@ export default {
       
   },
     created() {
-        console.log (localStorage.getItem('pseudo'));
+        console.log (this.postProfil);
   }
 }
 </script>
@@ -309,7 +311,6 @@ hr {
     box-shadow: none
 }
 .content {
-    padding-top: 36px;
 }
 .commentaires-div {
     margin-top: 5px;
@@ -334,6 +335,14 @@ a{
 a:hover{
     text-decoration: underline;        
     color: rgb(70, 70, 245);
+}
+.post-header{
+    display: flex;
+    justify-content: space-between;
+    padding-top: 10px;
+}
+.getOnePost {
+    flex: 1;
 }
 
 </style>

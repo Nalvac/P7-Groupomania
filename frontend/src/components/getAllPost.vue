@@ -9,6 +9,7 @@
     :posterId="post.posterId"
     :imgUrl="post.imgUrl"
     :id="post.id"
+    :postProfil="post.postProfil"
     :comments="comments[index]"
     :cunt="cunt[index]"
     :updatedAt="

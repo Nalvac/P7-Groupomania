@@ -15,6 +15,7 @@ exports.addPost = (req, res, next) => {
     const message = req.body.post;
     const author = req.body.author;
     const posterId = req.body.posterId;
+    const postProfil = req.body.postProfil;
     console.log(req.file)
     if (req.file) {
 
@@ -26,6 +27,7 @@ exports.addPost = (req, res, next) => {
                 post: message,
                 posterId: posterId,
                 imgUrl: `${req.protocol}://${req.get("host")}/images/${file}`,
+                postProfil: postProfil,
             })
             .then((post) => {
                 const message = "Votre mesage a été créé.";
@@ -46,6 +48,7 @@ exports.addPost = (req, res, next) => {
                 author: author,
                 post: message,
                 posterId: posterId,
+                postProfil: postProfil,
             })
             .then((post) => {
                 const message = "Votre mesage a été créé.";

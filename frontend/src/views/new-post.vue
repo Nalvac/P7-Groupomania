@@ -37,7 +37,7 @@ export default {
       posterId: localStorage.getItem("id"),      
       postId: this.$route.params.id,
       error: false,      
-      imgProfil: localStorage.getItem("imgProfil"),
+      postProfil: "",
     };
   },
     components: {
@@ -57,6 +57,7 @@ export default {
             formData.append("author", this.author);
             formData.append("post", this.message);
             formData.append("posterId", this.posterId);
+            formData.append("postProfil", localStorage.getItem("imgProfil"));
             console.log(formData);
             axios
                 .post(`http://localhost:3000/api/post`, formData, {

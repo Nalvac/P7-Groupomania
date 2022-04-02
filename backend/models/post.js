@@ -23,5 +23,8 @@ module.exports = (sequelize, DataTypes) => {
         imgUrl: {
             type: DataTypes.STRING,
         },
+        postProfil: {
+            type: DataTypes.STRING,
+        }
     })
 }

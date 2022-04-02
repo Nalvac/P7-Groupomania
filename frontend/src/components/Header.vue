@@ -58,6 +58,8 @@ nav {
   width: 100%;
   margin: 0 auto;
   position: fixed;
+  
+  min-width: 830px;
   top: 0;
   left: 0;
   z-index: 10000;
@@ -79,6 +81,7 @@ nav {
   }
   .rounded-circle {
       border-radius: 200px !important;
+      margin-right: 10px;
   }
 }
 
