@@ -1,4 +1,5 @@
 const { Post } = require('../database/dbConfig')
+const fs = require("fs");
 
 exports.getAllPost = (req, res, next) => {
     Post.findAll({
@@ -16,6 +17,8 @@ exports.addPost = (req, res, next) => {
     const posterId = req.body.posterId;
     console.log(req.file)
     if (req.file) {
+
+        console.log(req.file)
         const file = `${req.file.filename}`;
         Post.create({
                 // création d'un post avec un fichier image
@@ -57,4 +60,44 @@ exports.addPost = (req, res, next) => {
                 return res.status(500).json({ message, data: error });
             });
     }
+};
+exports.deletePost = (req, res, next) => {
+    const id = parseInt(req.params.id);
+    Post.findByPk(id)
+        .then((post) => {
+            console.log(post);
+            if (post.imgUrl) {
+                const filename = post.imgUrl.split("/images")[1]; // suppression de l'image
+                fs.unlink(`images/${filename}`, () => {
+                    post
+                        .destroy()
+                        .then(() => {
+                            const message = "Le post a bien été supprimé.";
+                            return res.status(200).json({ message });
+                        })
+                        .catch((error) => {
+                            const message =
+                                "La suppression du post a échoué, veuillez réessayer dans quelques instants.";
+                            return res.status(500).json({ message, data: error });
+                        });
+                });
+            } else {
+                post
+                    .destroy()
+                    .then(() => {
+                        const message = "Le post a bien été supprimé.";
+                        return res.status(200).json({ message });
+                    })
+                    .catch((error) => {
+                        const message =
+                            "La suppression du post a échoué, veuillez réessayer dans quelques instants.";
+                        return res.status(500).json({ message, data: error });
+                    });
+            }
+        })
+        .catch((error) => {
+            const message =
+                "La suppression du post a échoué, veuillez réessayer dans quelques instants.";
+            return res.status(500).json({ message, data: error });
+        });
 };

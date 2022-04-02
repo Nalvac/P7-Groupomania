@@ -32,7 +32,8 @@ export default {
       file: "",
       author: localStorage.getItem("pseudo"),
       posterId: localStorage.getItem("id"),
-      error: false,
+      error: false,      
+      imgProfil: localStorage.getItem("imgProfil"),
     };
   },
     components: {

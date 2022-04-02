@@ -59,12 +59,14 @@ export default {
           }
         )
         .then((user) => {
-          console.log(user);
+          console.log( user.data.data.imgProfil);
           localStorage.setItem("user", JSON.stringify(user.data)); // envoie de données dans le localstorage
           localStorage.setItem("pseudo", user.data.data.pseudo);
           localStorage.setItem("email", user.data.data.email);
           localStorage.setItem("id", user.data.data.id);
-          localStorage.setItem("isAdmin",user.data.data.isAdmin);
+          localStorage.setItem("isAdmin",user.data.data.isAdmin);                               
+          localStorage.setItem("imgProfil", user.data.data.imgProfil);
+          localStorage.setItem("poste", user.data.data.poste);
           localStorage.setItem("token", user.data.token);
           this.$router.replace("/home");
         })

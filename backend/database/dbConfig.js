@@ -36,6 +36,8 @@ const initDb = () => {
                 email: `${process.env.ADMIN_EMAIL}`,
                 pseudo: `${process.env.ADMIN_PSEUDO}`,
                 password: hash,
+                imgProfil: "https://i.imgur.com/XyT4vI9.png",
+                poste: "Admin",
                 isAdmin: true,
             }).then((user) => console.log(user.toJSON()));
         });

@@ -7,7 +7,8 @@ exports.signUp = (req, res, next) => {
         User.create({
             email: req.body.email,
             pseudo: req.body.pseudo,
-            password: hash
+            password: hash,
+            imgProfil: "https://i.imgur.com/XyT4vI9.png",
         }).then(() => {
             console.log('Utilisateur crée avec succès...');
         }).catch(error => {
@@ -46,3 +47,95 @@ exports.login = (req, res, next) => {
         })
     })
 }
+exports.updateUser = (req, res, next) => {
+    User.findOne({
+            where: {
+                id: req.params.id,
+            },
+        })
+        .then((user) => {
+            if (!user) {
+                const message =
+                    "L'utilisateur demandé n'existe pas, veuillez réessayer avec un autre identifiant.";
+                return res.status(404).json({ message });
+            }
+            const email = req.body.email;
+            const pseudo = req.body.pseudo;
+            const poste = req.body.poste;
+            console.log(req.file)
+            if (req.file) {
+
+                console.log(req.file)
+                const file = `${req.file.filename}`;
+                user.update({
+                        email: email,
+                        pseudo: pseudo,
+                        poste: poste,
+                        imgProfil: `${req.protocol}://${req.get("host")}/images/${file}`,
+                    })
+                    .then((user) => {
+                        const message = "Votre profil a été modifié.";
+                        return res.status(201).json({ message, data: user });
+                    })
+                    .catch((error) => {
+
+                        const message =
+                            "L'update a échoué, veuillez réessayer dans quelques instants.";
+                        return res.status(500).json({ message, data: error });
+                    });
+            } else {
+                debugger;
+                user.update({
+                        email: email,
+                        pseudo: pseudo,
+                        poste: poste,
+                    })
+                    .then((post) => {
+                        const message = "Votre profil a été modifié.";
+                        return res.status(201).json({ message, data: user });
+                    })
+                    .catch((error) => {
+                        if (error instanceof ValidationError) {
+                            return res.status(400).json({ message: error.message, data: error });
+                        }
+                        const message =
+                            "L'update du profil a échoué, veuillez réessayer dans quelques instants.";
+                        return res.status(500).json({ message, data: error });
+                    });
+            }
+
+        })
+        .catch((error) => {
+            const message =
+                "La modification d'un utilisateur a échoué, veuillez réessayer dans quelques instants.";
+            return res.status(500).json({ message, data: error });
+        });
+};
+
+//Delete user, suppression d'un utilisateur et de tous ces posts
+
+exports.deleteUser = (req, res, next) => {
+    User.findOne({
+            where: {
+                id: req.params.id,
+            },
+        })
+        .then((user) => {
+            if (!user) {
+                const message =
+                    "L'utilisateur demandé n'existe pas, veuillez réessayer avec un autre identifiant.";
+                return res.status(404).json({ message });
+            }
+            return user.destroy().then(() => {
+                return Post.destroy({ where: { posterId: req.params.id } }).then(() => {
+                    const message = "L'utilisateur et ses posts ont été supprimés";
+                    return res.status(200).json({ message });
+                });
+            });
+        })
+        .catch((error) => {
+            const message =
+                "La suppression d'un utilisateur a échoué, veuillez réessayer dans quelques instants.";
+            return res.status(500).json({ message, data: error });
+        });
+};

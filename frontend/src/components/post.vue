@@ -1,3 +1,4 @@
+
 <template class="">
 <div class="content">
     <div class="container mt-5 mb-2">
@@ -5,10 +6,13 @@
             <div class="col-md-6 border border-secondary">
                 <div class="card">
                     <div class="d-flex justify-content-between p-2 px-3">
-                        <div class="d-flex flex-row align-items-center"> <img src="https://i.imgur.com/UXdKE3o.jpg" width="50" class="rounded-circle">
-                            <div class="d-flex flex-column ml-2"> <span class="font-weight-bold">{{ author }}</span> <small class="text-primary">Collegues</small> </div>
+                        <div class="d-flex flex-row align-items-center"> <img :src="imgProfil" width="50" class="rounded-circle">
+                            <div class="d-flex flex-column ml-2"> <span class="font-weight-bold">{{ author }}</span> <small class="text-primary">{{poste}}</small> </div>
                         </div>
-                        <div class="d-flex flex-row mt-1 ellipsis"> <small class="mr-2">{{ updatedAt }}</small> <i class="fa fa-ellipsis-h"></i> </div>
+                        <div class="d-flex flex-row mt-1 ellipsis"> <small class="mr-2">{{ updatedAt }}</small> 
+                            <i v-if="author === name " id="show-modal" @click="deletePost(id)" class="fa fa-ellipsis-h"></i> 
+                        </div>
+                           <vue-confirm-dialog></vue-confirm-dialog>
                     </div> <img :src="imgUrl" class="img-fluid">
                     <div class="p-2">
                         <p class="text-justify">{{ post }}</p>
@@ -29,20 +33,36 @@
                                     
                             </div>
                         </div>
-                        <div  v-bind:class="{ 'comment-scroll': comments.length > 3 || commentaires.length > 3}" v-if="comments.length > 0 || commentaires.length >0">
+                        <div  v-bind:class="{ 'comment-scroll':comments && comments.length > 3 || commentaires.length > 3}" >
                             <div v-if="!getPost">
-                                <div  class="commentaires-div" v-for="item in comments" :key="item.comment">
-                                    <h8>{{item.author}}</h8>
+                                <div v-for="item in comments" :key="item.comment">
+                                    <div  class="commentaires-div">
+                                        <h8>{{item.author}}</h8>
+                                        <br>
+                                        <span class="commentaires-text">{{item.comment}}</span>
                                     <br>
-                                    <span class="commentaires-text">{{item.comment}}</span>
+                                    </div>
+                                    <div class="commentaires-text" v-if="item.author === name" style="display: flex;
+                                        justify-content: space-around;"> 
+                                        <a @click="deleteCommentaire(item.id)">Supprimer</a> 
+                                        <a >Modifier</a>  
+                                    </div>  
                                 </div>
                             </div>
                             <div v-if="getPost">
-                                <div  class="commentaires-div" v-for="item in commentaires" :key="item.comment">
-                                    <h8>{{item.author}}</h8>
+                                <div  v-for="item in commentaires" :key="item.comment">
+                                    <div  class="commentaires-div">
+                                        <h8>{{item.author}}</h8>
+                                        <br>
+                                        <span class="commentaires-text">{{item.comment}}</span>
                                     <br>
-                                    <span class="commentaires-text">{{item.comment}}</span>
-                            </div>
+                                    </div>
+                                    <div class="commentaires-text" v-if="item.author === name" style="display: flex;
+                                        justify-content: space-around;"> 
+                                        <a  @click="deleteCommentaire(item.id)">Supprimer</a> 
+                                        <a >Modifier</a>   
+                                    </div>                        
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -60,9 +80,13 @@ export default {
     data() {
          return {
             commentContent: "",
+            poste: localStorage.getItem("poste"),
             countComments: 0,
             getPost: false,
-            commentaires: ""
+            commentaires: "",
+            name: localStorage.getItem('pseudo'),
+            imgProfil:  localStorage.getItem("imgProfil") ? localStorage.getItem("imgProfil"): "https://cdn-icons-png.flaticon.com/512/64/64572.png",
+
         }
     },
       props: {
@@ -112,7 +136,7 @@ export default {
           "http://localhost:3000/api/comment",
           {
             comment: this.commentContent,
-            author: this.author,
+            author: localStorage.getItem("pseudo"),
             postId: id,
             commenterId: this.commenterId,
           },
@@ -133,15 +157,62 @@ export default {
             .then((comments) => {
               this.getPost = true;
               this.commentaires = comments.data.comments;
+              console.log(this.commentaires)
               this.countComments = comments.data.comments.length;
             });
 
         },(error)=>{
             console.log(error)
         })
+      },
+      deleteCommentaire(id) {
+          console.log(id);
+         axios
+        .delete(`http://localhost:3000/api/comment/${id}`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ` + localStorage.getItem("token"),
+          },
+        }).then(
+            () => {                
+              alert("votre commentaire a bien été supprimé.");
+              this.$router.go();
+            },
+            () => {}
+        )
+      },
+      deletePost(id) {
+          if (confirm('Voulez vous supprimer ce post ?') == true){
+            axios
+            .delete(`http://localhost:3000/api/post/${id}`, {
+            headers: {
+                "Content-Type": "application/json",
+            },
+            })
+            .then(() => {                
+            alert("Vo;tre message est supprimé.");           
+            this.$router.go();    
+            this.axios
+                .delete(`http://localhost:3000/api/comment/post/${id}`, {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                })
+                .then(() => {
+                    alert("Vo;tre message est supprimé.");            
+                    this.$router.go();
+                });
+                 this.$router.go();
+            });
+          }
+          else {
+              console.log('Non')
+          }
       }
+      
   },
     created() {
+        console.log (localStorage.getItem('pseudo'));
   }
 }
 </script>
@@ -277,6 +348,16 @@ hr {
 .comment-scroll{
     height: 210px;
     overflow-y: scroll;
+}
+a{
+    font-size: 12px;
+    cursor: pointer;
+    color: rgb(70, 70, 245);
+
+}
+a:hover{
+    text-decoration: underline;        
+    color: rgb(70, 70, 245);
 }
 
 </style>

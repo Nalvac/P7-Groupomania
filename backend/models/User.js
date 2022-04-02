@@ -38,6 +38,9 @@ module.exports = (sequelize, DataTypes) => {
         imgProfil: {
             type: DataTypes.STRING,
         },
+        poste: {
+            type: DataTypes.STRING,
+        },
         isAdmin: {
             type: DataTypes.BOOLEAN,
             defaultValue: false, // true permet d'avoir des droits d'administrateur (suppression de tous les posts ou commentaires)

@@ -7,7 +7,7 @@
     </div>
     <div class="searchBar">
         <form class="form-inline">            
-             <img src="https://i.imgur.com/UXdKE3o.jpg" width="50" class="rounded-circle">
+             <img :src="imgProfil" width="50" class="rounded-circle">
             <input class="form-control mr-sm-2" type="search" placeholder="Quoi de neuf ?😎" aria-label="Search"  disabled="disabled" >
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit" @click="addPost">Ajouter un post ✔</button>
         </form>
@@ -30,7 +30,12 @@
 <script>
  export default {
   name: 'Header',
-
+  data() {
+    return {
+      
+      imgProfil:  localStorage.getItem("imgProfil"),
+    }
+  },
   methods: {
     addPost (){
       this.$router.replace("/new");
@@ -71,6 +76,9 @@ nav {
   }
   .disconnect{
     right: 10;
+  }
+  .rounded-circle {
+      border-radius: 200px !important;
   }
 }
 

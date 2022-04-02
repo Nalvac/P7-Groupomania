@@ -3,30 +3,39 @@
     <div class="form-content">
         <form>            
             <div class="d-flex flex-column align-items-center">
-                 <img src="https://i.imgur.com/UXdKE3o.jpg" width="70" class="rounded-circle">
-                 <a href="#" class="color: primary">Changer votre photo</a>
+                 <img :src="imgProfil" width="130" class="rounded-circle">
+                <div class="form-group">
+                <label for="formFile" class="form-label mt-4 primary">Changer votre photo :</label>
+                <input
+                    class="form-control"
+                    type="file"
+                    id="formFile"
+                    @change="handleFileUpload($event)"
+                />
+                </div>   
             </div>
             <div class="form-group">
                 <label for="exampleInputPassword1">Pseudo</label>
-                <input type="name" class="form-control" id="exampleInputPassword1" v-bind:placeholder="pseudo">
+                <input type="name" class="form-control" id="exampleInputPassword1" v-bind:placeholder="pseudo"  v-model="pseudo">
             </div>
             <div class="form-group">
                 <label for="exampleInputPassword1">Poste actuel</label>
-                <input type="name" class="form-control" id="exampleInputPassword1" placeholder="Poste actuel">
+                <input type="name" class="form-control" id="exampleInputPassword1" placeholder="Poste actuel"  v-model="poste">
             </div>
             <div class="form-group">
                 <label for="exampleInputEmail1">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" v-bind:placeholder="email">
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" v-bind:placeholder="email"  v-model="email">
                 <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
             </div>
             <div class="d-flex flex-row justify-content-around">
-                <button type="submit" class="btn btn-primary" @click="updateProfil()">Enregistrer</button>
+                <button type="submit" class="btn btn-primary" @click="updateProfil(userId)">Enregistrer</button>
                 <button type="cancel" class="btn btn-danger">Annuler</button>
             </div>
         </form>
     </div>
 </template>
 <script>
+import axios from "axios"
 import Header from '../components/Header.vue'
 export default {
     name: 'Profil',
@@ -40,12 +49,53 @@ export default {
             email: localStorage.getItem("email"),
             userId: localStorage.getItem("id"),
             isAdmin: localStorage.getItem("isAdmin"),
+            imgProfil:  localStorage.getItem("imgProfil") ? localStorage.getItem("imgProfil"): "https://cdn-icons-png.flaticon.com/512/64/64572.png",
+            poste: localStorage.getItem("poste"),
+            file: "",
         }
     },
     created() {
 
     },
-    methods: {}
+    methods: {
+         handleFileUpload(event){            
+            this.file = event.target.files[0];
+        },
+        updateProfil(id) {
+            let formData = new FormData();
+            if (this.file) {
+                console.log('fil');
+                formData.append("imgProfil", this.file);
+            }
+            formData.append("pseudo", this.pseudo);
+            formData.append("email", this.email);
+            formData.append("poste", this.poste);
+            console.log(formData);
+            axios
+                .put(`http://localhost:3000/api/user/${id}`,formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                    Authorization: `Bearer ` + localStorage.getItem("token"),
+                },
+                })
+                .then((user) => {
+                     console.log(user);
+                     localStorage.setItem("user", JSON.stringify(user.data)); // envoie de données dans le localstorage
+                     localStorage.setItem("pseudo", user.data.data.pseudo);
+                     localStorage.setItem("email", user.data.data.email);
+                     localStorage.setItem("id", user.data.data.id);                     
+                     localStorage.setItem("imgProfil", user.data.data.imgProfil);
+                alert("Votre profil a été modifié.");
+                this.$router.replace("/home");
+                })
+                .catch((e) => {
+                this.error = e.response.data.message
+                    .replace("Validation error:", "")
+                    .split(",")[0];
+
+                });
+        }
+    }
 }
 </script>
 <style scoped lang="scss">
@@ -53,6 +103,9 @@ export default {
         margin-top: 6rem !important;
         width: 50%;
         margin: 0 auto;
+    }
+    .rounded-circle {
+      border-radius: 200px !important;
     }
 
 </style>
