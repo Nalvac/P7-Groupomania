@@ -38,7 +38,7 @@
   },
   methods: {
     addPost (){
-      this.$router.replace("/new");
+        this.$router.push({ name: 'new', params: { id: 'null' } });
     },
     disconnect(){
       localStorage.removeItem("user"); // suppression du localstrorage

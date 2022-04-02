@@ -15,10 +15,13 @@
             <div id="emailHelp" class="form-text text-muted"> <img  ></div>
         </div>
         <div class="d-flex flex-row justify-content-around">
-            <button type="submit" class="btn btn-primary">Publier</button>
-            <button type="cancel" class="btn btn-danger">Annuler</button>
+            <button @submit.prevent="addPost()" v-if="this.postId === 'null'" class="btn btn-primary">Publier</button>            
+            <button @submit.prevent="addPost()" v-if="this.postId != 'null'" class="btn btn-success">Modifer</button> 
+            <button type="cancel" v-if="this.postId === 'null'" class="btn btn-danger">Annuler</button>
+            <button @click="deletePost(this.postId)" v-if="this.postId != 'null'" class="btn btn-danger">Supprimer</button>
         </div>
     </form>
+                         
 </template>
 <script>
 
@@ -31,7 +34,8 @@ export default {
       message: "",
       file: "",
       author: localStorage.getItem("pseudo"),
-      posterId: localStorage.getItem("id"),
+      posterId: localStorage.getItem("id"),      
+      postId: this.$route.params.id,
       error: false,      
       imgProfil: localStorage.getItem("imgProfil"),
     };
@@ -44,7 +48,8 @@ export default {
             this.file = event.target.files[0];
         },
         addPost() {
-            this.error = false;
+            if (this.postId === 'null') {
+                            this.error = false;
             let formData = new FormData();
             if (this.file) {
                 formData.append("imgUrl", this.file);
@@ -70,8 +75,96 @@ export default {
                     .split(",")[0];
 
                 });
+            }else {
+                this.modifyPost(this.postId)
+            }
         },
         
+    deletePost (id) {
+            if (confirm('Voulez vous supprimer ce post ?') == true){
+            axios
+            .delete(`http://localhost:3000/api/post/${id}`, {
+            headers: {
+                "Content-Type": "application/json",
+            },
+            })
+            .then(() => {                
+            alert("Vo;tre message est supprimé.");    
+            this.axios
+                .delete(`http://localhost:3000/api/comment/post/${id}`, {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                })
+                .then(() => {         
+                     this.$router.replace("/home");
+                });
+                 this.$router.go();
+            });
+          }
+          else {
+              console.log('Non')
+          }
+    },
+    getOnePost(id) {
+    axios
+        .get(`http://localhost:3000/api/post/${id}`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ` + localStorage.getItem("token"),
+          },
+        })
+        .then((posts) => {
+           this.message = posts.data.data.post;
+          this.file = posts.data.data.imgUrl;
+        });
+
+      axios
+        .get(`http://localhost:3000/api/comment/${id}`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ` + localStorage.getItem("token"),
+          },
+        })
+        .then((comments) => {
+          this.comments = comments.data.comments;
+        });
+    },
+     modifyPost(id) {
+      this.error = false;
+      let formData = new FormData();
+      if (this.file != null){
+          
+      formData.append("imgUrl", this.file);
+      }
+      formData.append("post", this.message);
+      axios
+        .put(`http://localhost:3000/api/post/${id}`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ` + localStorage.getItem("token"),
+          },
+        })
+        .then(() => {
+          alert("Votre message a bien été modifié");
+          
+            this.$router.replace("/home");
+        })
+        .catch((e) => {
+          this.error = e.response.data.message
+            .replace("Validation error:", "")
+            .split(",")[0];
+        });
+    },
+        
+    },
+    created() {
+        console.log(this.postId)
+        if (this.postId != 'null') {            
+         this.getOnePost(this.postId);
+        }else {
+            this.message = ""
+        }
     }
 }
 </script>

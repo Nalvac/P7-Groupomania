@@ -182,32 +182,8 @@ export default {
         )
       },
       deletePost(id) {
-          if (confirm('Voulez vous supprimer ce post ?') == true){
-            axios
-            .delete(`http://localhost:3000/api/post/${id}`, {
-            headers: {
-                "Content-Type": "application/json",
-            },
-            })
-            .then(() => {                
-            alert("Vo;tre message est supprimé.");           
-            this.$router.go();    
-            this.axios
-                .delete(`http://localhost:3000/api/comment/post/${id}`, {
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                })
-                .then(() => {
-                    alert("Vo;tre message est supprimé.");            
-                    this.$router.go();
-                });
-                 this.$router.go();
-            });
-          }
-          else {
-              console.log('Non')
-          }
+        
+        this.$router.push({ name: 'new', params: { id: id } });
       }
       
   },
