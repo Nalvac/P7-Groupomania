@@ -108,3 +108,5 @@ dist
 /images
 
 package.json
+
+/node_modules
