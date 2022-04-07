@@ -9,8 +9,8 @@
                         <div class="d-flex flex-row align-items-center getOnePost"> <img :src="postProfil" width="50" class="rounded-circle">
                             <div class="d-flex flex-column ml-2"> <span class="font-weight-bold">{{ author }}</span>  </div>
                         </div>
-                        <div class="d-flex flex-row  ellipsis"> <small class="mr-2">{{ updatedAt }}</small> 
-                            <i v-if="author === name && isAdmin " id="show-modal" @click="deletePost(id)" class="fa fa-ellipsis-h"></i> 
+                        <div class="d-flex flex-row  ellipsis"> <small class="mr-2">{{ updatedAt }}</small>                            
+                            <i v-if="posterId === userId || ( isAdmin == 'true') " id="show-modal" @click="deletePost(id)" class="fa fa-ellipsis-h"></i> 
                         </div>
                            <vue-confirm-dialog></vue-confirm-dialog>
                     </div> <img :src="imgUrl" class="img-fluid">
@@ -33,7 +33,7 @@
                                     
                             </div>
                         </div>
-                        <div  v-bind:class="{ 'comment-scroll':comments && comments.length > 3 || commentaires.length > 3}" >
+                        <div  v-bind:class="{ 'comment-scroll':comments && comments.length >= 3 || commentaires.length >= 3}" >
                             <div v-if="!getPost">
                                 <div v-for="item in comments" :key="item.comment">
                                     <div  class="commentaires-div">
@@ -42,7 +42,7 @@
                                         <span class="commentaires-text">{{item.comment}}</span>
                                     <br>
                                     </div>
-                                    <div class="commentaires-text" v-if="item.author === name && isAdmin" style="display: flex;
+                                    <div class="commentaires-text" v-if="item.author === name || ( isAdmin == 'true')" style="display: flex;
                                         justify-content: space-around;"> 
                                         <a @click="deleteCommentaire(item.id)">Supprimer</a> 
                                     </div>  
@@ -56,7 +56,7 @@
                                         <span class="commentaires-text">{{item.comment}}</span>
                                     <br>
                                     </div>
-                                    <div class="commentaires-text" v-if="item.author === name" style="display: flex;
+                                    <div class="commentaires-text" v-if="item.author === name || ( isAdmin == 'true')" style="display: flex;
                                         justify-content: space-around;"> 
                                         <a  @click="deleteCommentaire(item.id)">Supprimer</a> 
                                     </div>                        
@@ -82,6 +82,7 @@ export default {
             countComments: 0,
             getPost: false,
             isAdmin: localStorage.getItem("isAdmin"),
+            userId: parseInt(localStorage.getItem('id')),
             commentaires: "",
             name: localStorage.getItem('pseudo'),
         }
@@ -139,7 +140,7 @@ export default {
             comment: this.commentContent,
             author: localStorage.getItem("pseudo"),
             postId: id,
-            commenterId: this.commenterId,
+            commenterId: this.userId,
           },
           {
             headers: {
@@ -153,6 +154,7 @@ export default {
             .get(`http://localhost:3000/api/comment/${id}`, {
             headers: {
                 "Content-Type": "application/json",
+                Authorization: `Bearer ` + localStorage.getItem("token"),
             },
             })
             .then((comments) => {
@@ -189,7 +191,8 @@ export default {
       
   },
     created() {
-        console.log (this.postProfil);
+        console.log (this.posterId);
+        console.log (parseInt(this.userId) );
   }
 }
 </script>
@@ -339,6 +342,9 @@ a:hover{
     display: flex;
     justify-content: space-between;
     padding: 10px 0;
+}
+h8{
+    font-weight: bold;
 }
 .getOnePost {
     flex: 1;

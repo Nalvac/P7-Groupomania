@@ -17,7 +17,7 @@
     </form>
     <div class="d-flex flex-row justify-content-around form-content">
         <button @click="addPost()" v-if="this.postId === 'null'" class="btn btn-primary">Publier</button>            
-        <button @click="modifyPost(this.postId)" v-if="this.postId != 'null'" class="btn btn-success">Modifer</button>
+        <button @click="modifyPost(this.postId)" v-if="this.postId != 'null' " class="btn btn-success">Modifer</button>
         <router-link  class="btn btn-danger" to="/home" tag="button">Annuler</router-link>
         <button @click="deletePost(this.postId)" v-if="this.postId != 'null'" class="btn btn-danger">Supprimer</button>
     </div>

@@ -67,7 +67,8 @@ export default {
             axios
             .get(`http://localhost:3000/api/comment/${this.posts[i].id}`, {
             headers: {
-                "Content-Type": "application/json",
+                "Content-Type": "application/json",                
+                Authorization: `Bearer ` + localStorage.getItem("token"),
             },
             })
             .then((comments) => {

@@ -1,5 +1,6 @@
 const { User } = require('../database/dbConfig');
 const { Post } = require("../database/dbConfig");
+const { Comment } = require("../database/dbConfig");
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken')
     //Inscription
@@ -10,7 +11,8 @@ exports.signUp = (req, res, next) => {
             pseudo: req.body.pseudo,
             password: hash,
             imgProfil: "https://i.imgur.com/XyT4vI9.png",
-            poste: "Employé chez Groupomania"
+            poste: "Employé chez Groupomania",
+            isAdmin: false
         }).then((user) => {
             const message = `L'utilisateur ${req.body.pseudo} a bien été créé.`;
             res.status(201).json({ message, data: user });
@@ -131,8 +133,10 @@ exports.deleteUser = (req, res, next) => {
             }
             return user.destroy().then(() => {
                 return Post.destroy({ where: { posterId: req.params.id } }).then(() => {
-                    const message = "L'utilisateur et ses posts ont été supprimés";
-                    return res.status(200).json({ message });
+                    return Comment.destroy({ where: { commenterId: req.params.id } }).then(() => {
+                        const message = "L'utilisateur et ses posts ont été supprimés";
+                        return res.status(200).json({ message });
+                    })
                 });
             });
         })

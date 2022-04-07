@@ -45,7 +45,8 @@
       localStorage.removeItem("token");
       localStorage.removeItem("pseudo");
       localStorage.removeItem("email");
-      localStorage.removeItem("isAdmin");
+      localStorage.removeItem("isAdmin");      
+      localStorage.removeItem("imgProfil");
       localStorage.removeItem("id");
       this.$router.replace("/")
     }

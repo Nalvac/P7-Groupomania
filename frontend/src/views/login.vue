@@ -59,7 +59,7 @@ export default {
           }
         )
         .then((user) => {
-          console.log( user.data.data.imgProfil);
+          console.log( user.data.data.isAdmin);
           localStorage.setItem("user", JSON.stringify(user.data)); // envoie de données dans le localstorage
           localStorage.setItem("pseudo", user.data.data.pseudo);
           localStorage.setItem("email", user.data.data.email);

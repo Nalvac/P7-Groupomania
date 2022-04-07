@@ -69,15 +69,16 @@ export default {
           }
         )
         .then(user => {
-          console.log('(je rentre ici')
-        localStorage.setItem("user", JSON.stringify(user.data.data));
-        localStorage.setItem("pseudo", user.data.data.pseudo);
-        localStorage.setItem("email", user.data.data.email);
-        localStorage.setItem("id", user.data.data.id);
-        localStorage.setItem("isAdmin", user.data.data.isAdmin);
-        localStorage.setItem("token", user.data.token);        
-        this.$router.replace("/home");
-        alert("Votre inscription est validé.");
+          localStorage.setItem("user", JSON.stringify(user.data)); // envoie de données dans le localstorage
+          localStorage.setItem("pseudo", user.data.data.pseudo);
+          localStorage.setItem("email", user.data.data.email);
+          localStorage.setItem("id", user.data.data.id);
+          localStorage.setItem("isAdmin",user.data.data.isAdmin);                               
+          localStorage.setItem("imgProfil", user.data.data.imgProfil);
+          localStorage.setItem("poste", user.data.data.poste);
+          localStorage.setItem("token", user.data.token);
+          alert("Votre inscription est validé.");
+          this.$router.replace('/home');
         })
         .catch( (e) => {          
           alert(e.response.data.message);   

@@ -12,5 +12,9 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             allowNull: false,
         },
+        commenterId: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        }
     });
 }
