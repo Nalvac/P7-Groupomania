@@ -30,7 +30,7 @@
              v-model="password"
           />
         </div>
-        <button  type="submit" class="btn btn-primary" >Submit</button>
+        <button  type="submit" class="btn btn-primary" >S'enregistrez</button>
       </div>
     </form>
     <div v-if="error" class="alert alert-danger">{{ error }}</div>
@@ -53,7 +53,6 @@ export default {
   methods: {
     // fonction d'inscription
     signup() {
-      this.error = false;
       axios
         .post(
           // inscription
@@ -69,18 +68,19 @@ export default {
             },
           }
         )
-        .then((user) => {
+        .then(user => {
+          console.log('(je rentre ici')
         localStorage.setItem("user", JSON.stringify(user.data.data));
         localStorage.setItem("pseudo", user.data.data.pseudo);
         localStorage.setItem("email", user.data.data.email);
         localStorage.setItem("id", user.data.data.id);
         localStorage.setItem("isAdmin", user.data.data.isAdmin);
-        localStorage.setItem("token", user.data.token);
-        alert("Votre inscription est validé.");
+        localStorage.setItem("token", user.data.token);        
         this.$router.replace("/home");
+        alert("Votre inscription est validé.");
         })
-        .catch( error => {
-          this.error = error.response.data.message.replace("Validation error:", "");
+        .catch( (e) => {          
+          alert(e.response.data.message);   
         });
     },
   },

@@ -1,4 +1,5 @@
 const { User } = require('../database/dbConfig');
+const { Post } = require("../database/dbConfig");
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken')
     //Inscription
@@ -9,8 +10,10 @@ exports.signUp = (req, res, next) => {
             pseudo: req.body.pseudo,
             password: hash,
             imgProfil: "https://i.imgur.com/XyT4vI9.png",
-        }).then(() => {
-            console.log('Utilisateur crée avec succès...');
+            poste: "Employé chez Groupomania"
+        }).then((user) => {
+            const message = `L'utilisateur ${req.body.pseudo} a bien été créé.`;
+            res.status(201).json({ message, data: user });
         }).catch(error => {
             console.log("L'utilisateur n'a pas être crée !" + error)
         })

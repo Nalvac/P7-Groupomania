@@ -6,7 +6,8 @@ const commentCtrl = require('../controllers/comments')
 
 router.post("/", commentCtrl.addComment);
 router.delete("/:id", commentCtrl.deleteComment);
-router.get("/:id", commentCtrl.getPostComments);
-router.get("/", commentCtrl.getAllComments);
+router.delete("/post/:id", auth, commentCtrl.deletePostComments);
+router.get("/:id", auth, commentCtrl.getPostComments);
+router.get("/", auth, commentCtrl.getAllComments);
 
 module.exports = router;

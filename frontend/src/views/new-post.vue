@@ -14,14 +14,14 @@
         </div>         
             <div id="emailHelp" class="form-text text-muted"> <img  ></div>
         </div>
-        <div class="d-flex flex-row justify-content-around">
-            <button @submit.prevent="addPost()" v-if="this.postId === 'null'" class="btn btn-primary">Publier</button>            
-            <button @submit.prevent="addPost()" v-if="this.postId != 'null'" class="btn btn-success">Modifer</button> 
-            <button type="cancel" v-if="this.postId === 'null'" class="btn btn-danger">Annuler</button>
-            <button @click="deletePost(this.postId)" v-if="this.postId != 'null'" class="btn btn-danger">Supprimer</button>
-        </div>
     </form>
-                         
+    <div class="d-flex flex-row justify-content-around form-content">
+        <button @click="addPost()" v-if="this.postId === 'null'" class="btn btn-primary">Publier</button>            
+        <button @click="modifyPost(this.postId)" v-if="this.postId != 'null'" class="btn btn-success">Modifer</button>
+        <router-link  class="btn btn-danger" to="/home" tag="button">Annuler</router-link>
+        <button @click="deletePost(this.postId)" v-if="this.postId != 'null'" class="btn btn-danger">Supprimer</button>
+    </div>
+                      
 </template>
 <script>
 
@@ -71,13 +71,14 @@ export default {
                 this.$router.replace("/home");
                 })
                 .catch((e) => {
-                this.error = e.response.data.message
-                    .replace("Validation error:", "")
-                    .split(",")[0];
-
+                
+                alert(e.response.data.message);
+ 
                 });
             }else {
+              if (this.postId != 'null'){
                 this.modifyPost(this.postId)
+              }
             }
         },
         
@@ -89,18 +90,22 @@ export default {
                 "Content-Type": "application/json",
             },
             })
-            .then(() => {                
-            alert("Vo;tre message est supprimé.");    
-            this.axios
+            .then(() => {                   
+            axios
                 .delete(`http://localhost:3000/api/comment/post/${id}`, {
                 headers: {
                     "Content-Type": "application/json",
                 },
                 })
-                .then(() => {         
-                     this.$router.replace("/home");
+                .then(() => {                    
+                    alert("Votre message est supprimé."); 
+                    this.$router.replace("/home");
                 });
-                 this.$router.go();
+                 
+                     this.$router.replace("/home");
+            })
+            .catch((e) => {              
+                alert(e.response.data.message);
             });
           }
           else {
@@ -131,11 +136,10 @@ export default {
           this.comments = comments.data.comments;
         });
     },
-     modifyPost(id) {
+    modifyPost(id) {
       this.error = false;
       let formData = new FormData();
       if (this.file != null){
-          
       formData.append("imgUrl", this.file);
       }
       formData.append("post", this.message);
@@ -152,9 +156,7 @@ export default {
             this.$router.replace("/home");
         })
         .catch((e) => {
-          this.error = e.response.data.message
-            .replace("Validation error:", "")
-            .split(",")[0];
+          alert(e.response.data.message);
         });
     },
         

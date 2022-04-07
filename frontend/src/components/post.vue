@@ -7,10 +7,10 @@
                 <div class="card">
                     <div class="post-header">
                         <div class="d-flex flex-row align-items-center getOnePost"> <img :src="postProfil" width="50" class="rounded-circle">
-                            <div class="d-flex flex-column ml-2"> <span class="font-weight-bold">{{ author }}</span> <small class="text-primary">{{poste}}</small> </div>
+                            <div class="d-flex flex-column ml-2"> <span class="font-weight-bold">{{ author }}</span>  </div>
                         </div>
                         <div class="d-flex flex-row  ellipsis"> <small class="mr-2">{{ updatedAt }}</small> 
-                            <i v-if="author === name " id="show-modal" @click="deletePost(id)" class="fa fa-ellipsis-h"></i> 
+                            <i v-if="author === name && isAdmin " id="show-modal" @click="deletePost(id)" class="fa fa-ellipsis-h"></i> 
                         </div>
                            <vue-confirm-dialog></vue-confirm-dialog>
                     </div> <img :src="imgUrl" class="img-fluid">
@@ -18,7 +18,7 @@
                         <p class="text-justify">{{ post }}</p>
                         <hr>
                         <div class="d-flex justify-content-between align-items-center">
-                            <div class="d-flex flex-row icons d-flex align-items-center"> <i class="fa fa-heart"></i> <i class="fa fa-smile-o ml-2"></i> </div>
+                            <div class="d-flex flex-row icons d-flex align-items-center"> <i class="fa fa-smile-o ml-2"></i> </div>
                             <div class="d-flex flex-row muted-color">
                                 <span v-if="!getPost">{{cunt}} Commentaires</span>
                                 <span v-if="getPost">{{countComments}} Commentaires</span>
@@ -42,10 +42,9 @@
                                         <span class="commentaires-text">{{item.comment}}</span>
                                     <br>
                                     </div>
-                                    <div class="commentaires-text" v-if="item.author === name" style="display: flex;
+                                    <div class="commentaires-text" v-if="item.author === name && isAdmin" style="display: flex;
                                         justify-content: space-around;"> 
                                         <a @click="deleteCommentaire(item.id)">Supprimer</a> 
-                                        <a >Modifier</a>  
                                     </div>  
                                 </div>
                             </div>
@@ -82,9 +81,9 @@ export default {
             poste: localStorage.getItem("poste"),
             countComments: 0,
             getPost: false,
+            isAdmin: localStorage.getItem("isAdmin"),
             commentaires: "",
             name: localStorage.getItem('pseudo'),
-
         }
     },
       props: {
@@ -149,7 +148,7 @@ export default {
           }
         ).then((res) => {
             console.log(res);
-            
+            this.commentContent = "";
             axios
             .get(`http://localhost:3000/api/comment/${id}`, {
             headers: {
@@ -339,7 +338,7 @@ a:hover{
 .post-header{
     display: flex;
     justify-content: space-between;
-    padding-top: 10px;
+    padding: 10px 0;
 }
 .getOnePost {
     flex: 1;

@@ -25,13 +25,17 @@
             <div class="form-group">
                 <label for="exampleInputEmail1">Email address</label>
                 <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" v-bind:placeholder="email"  v-model="email">
-                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
             </div>
             <div class="d-flex flex-row justify-content-around">
                 <button type="submit" class="btn btn-primary" @click="updateProfil(userId)">Enregistrer</button>
-                <button type="cancel" class="btn btn-danger">Annuler</button>
+                <router-link  class="btn btn-danger" to="/home" tag="button">Annuler</router-link>
             </div>
         </form>
+        <div>
+            
+                <button class="btn btn-dark" @click="deleteUser()">Suppimer mon Compte</button>
+        </div>
+
     </div>
 </template>
 <script>
@@ -94,6 +98,27 @@ export default {
                     .split(",")[0];
 
                 });
+        },
+        deleteUser() {
+            axios
+            .delete(`http://localhost:3000/api/user/${this.userId}`, {
+            // récupération de tous les posts d'un utilisateur
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ` + localStorage.getItem("token"),
+            },
+            })
+            .then(response => {
+            // suppression du localstorage
+            localStorage.removeItem("user");
+            localStorage.removeItem("token");
+            localStorage.removeItem("pseudo");
+            localStorage.removeItem("email");
+            localStorage.removeItem("isAdmin");
+            localStorage.removeItem("id");
+            alert("Votre compte a été supprimé." + response);
+            this.$router.replace("/");
+            });
         }
     }
 }

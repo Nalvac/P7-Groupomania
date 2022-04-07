@@ -26,7 +26,7 @@
             v-model="password"
           />
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary">Connexion</button>
       </div>
     </form>
   </main>
@@ -71,6 +71,7 @@ export default {
           this.$router.replace("/home");
         })
         .catch((e) => {
+          alert(e.response.data.message);
           this.error = e.response.data.message.replace("Validation error:", "");
         });
     },

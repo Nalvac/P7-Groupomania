@@ -22,7 +22,7 @@
           </router-link>
         </li>
         <li class="nav-item">
-          <button type="button" class="btn btn-primary disconnect" @click="disconnect">Disconnect</button>
+          <button type="button" class="btn btn-primary disconnect" @click="disconnect">Déconnexion</button>
         </li>
       </ul>
   </nav>
