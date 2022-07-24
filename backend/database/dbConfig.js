@@ -3,22 +3,15 @@ const { Sequelize, DataTypes } = require('sequelize');
 const userModel = require('../models/User')
 const postModel = require('../models/post');
 const CommentModel = require('../models/comments')
-require('dotenv').config();
 
 const bcrypt = require("bcrypt");
-const dataBase = new Sequelize(
-    `${process.env.DB_NAME}`, // nom de la bdd
-    `${process.env.DB_USER}`, // nom utilisateur
-    `${process.env.DB_PASSWORD}`, // mdp utilisateur
-    {
-        host: `${process.env.DB_HOST}`, // où se trouve la bdd
-        dialect: "mysql", // dialecte pour sequelize pour interragir avec la bdd
-        dialectOptions: {
-            timezone: "Etc/GMT-2",
-        },
-        login: false,
+const dataBase  = new Sequelize('testdb', 'root', 'root', {
+    host: '127.0.0.1',
+    dialect: 'mysql',
+    dialectOptions: {
+      socketPath: '/Applications/MAMP/tmp/mysql/mysql.sock'
     }
-)
+  });
 
 dataBase.authenticate().then(() => {
     console.log("Connexion Réussie");
@@ -31,10 +24,10 @@ const Post = postModel(dataBase, DataTypes);
 const Comment = CommentModel(dataBase, DataTypes);
 const initDb = () => {
     return dataBase.sync({ force: true }).then(() => {
-        bcrypt.hash(`${process.env.ADMIN_PASSWORD}`, 10).then((hash) => {
+        bcrypt.hash(`root}`, 10).then((hash) => {
             User.create({
-                email: `${process.env.ADMIN_EMAIL}`,
-                pseudo: `${process.env.ADMIN_PSEUDO}`,
+                email: `root@gmail.com`,
+                pseudo: `root`,
                 password: hash,
                 imgProfil: "https://i.imgur.com/XyT4vI9.png",
                 poste: "Admin",
