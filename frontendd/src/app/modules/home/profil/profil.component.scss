@@ -1,0 +1,55 @@
+.section-profil {
+  margin-top: 1%;
+  margin-right: 5%;
+  height: 100%;
+  width: 300px;
+  background-color: #f3f0f0;
+
+  .user-info {
+    .user-profil-image {
+      height: 300px;
+      width: auto;
+      background-color: white;
+      img {
+        width: 100%;
+        height: auto;
+      }
+    }
+    .user-profil-info {
+      margin-top: 7px;
+      padding: 10px;
+      a {
+        color: #4267B2
+      }
+      .edit-profil {
+        display: flex;
+        justify-content: space-between;
+
+        i {
+          font-size: 10px;
+          align-self: center;
+        }
+      }
+
+    }
+    .user-profil-info-poste {
+      padding: 10px;
+      ::ng-deep .mat-card {
+        padding: 5px;
+      }
+      .edit-profil {
+        display: flex;
+        justify-content: space-between;
+        p {
+          margin: 0;
+        }
+        i {
+          font-size: 10px;
+        }
+      }
+      .edit-profil-birthDay {
+        margin-top: 10px
+      }
+    }
+  }
+}

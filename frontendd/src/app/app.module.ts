@@ -13,13 +13,21 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
 import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import {HomeHeaderComponent} from "./modules/home/home-header/home-header.component";
+import {ProfilComponent} from "./modules/home/profil/profil.component";
+import {ActualityComponent} from "./modules/home/actuality/actuality.component";
+import {MatTabsModule} from "@angular/material/tabs";
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     HomeComponent,
-    TestComponent
+    TestComponent,
+    HomeHeaderComponent,
+    ProfilComponent,
+    ActualityComponent,
   ],
   imports: [
     BrowserModule,
@@ -30,7 +38,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatSelectModule,
     MatRadioModule,
     MatCardModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule,
+    MatTabsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

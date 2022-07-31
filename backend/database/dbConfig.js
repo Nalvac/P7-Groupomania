@@ -24,7 +24,7 @@ const Post = postModel(dataBase, DataTypes);
 const Comment = CommentModel(dataBase, DataTypes);
 const initDb = () => {
     return dataBase.sync({ force: true }).then(() => {
-        bcrypt.hash(`root}`, 10).then((hash) => {
+        bcrypt.hash(`root`, 10).then((hash) => {
             User.create({
                 email: `root@gmail.com`,
                 pseudo: `root`,

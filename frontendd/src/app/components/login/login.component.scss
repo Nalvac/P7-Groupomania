@@ -9,5 +9,42 @@
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center center;
-    background-size: cover
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
 }
+label {
+    margin-bottom: 4px;
+    margin-top: 8px;
+    color: gray;
+    text-transform: uppercase;
+    font-size: 13px;
+    line-height: 16px;
+
+  }
+  input {
+    padding: 11px 16px;
+    height: 40px;
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 4px;
+    color: black;
+  }
+
+  .login-form {
+    width: 520px;
+    height: 393px;
+    border-radius: 16px;
+    background-color: #fff;
+    padding: 30px;
+  }
+  .login-button {
+    background-color: #3f51b5!important;
+    color: #fff;
+  }
+
+  a {
+    text-decoration: none;
+  }
