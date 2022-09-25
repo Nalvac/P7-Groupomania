@@ -25,6 +25,13 @@ module.exports = (sequelize, DataTypes) => {
         },
         postProfil: {
             type: DataTypes.STRING,
-        }
+        },
+        likes: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+        },
+        usersLiked: {
+            type: [DataTypes.DECIMAL],
+        },
     })
 }

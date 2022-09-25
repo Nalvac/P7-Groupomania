@@ -6,6 +6,7 @@ const userCtrl = require('../controllers/user');
 
 routes.post('/signup', userCtrl.signUp);
 routes.post('/login', userCtrl.login);
+routes.get('/:id', userCtrl.user);
 routes.put("/:id", multerProfil, userCtrl.updateUser);
 routes.delete("/:id", userCtrl.deleteUser);
 

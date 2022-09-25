@@ -1,0 +1,19 @@
+
+  .post-card {
+    padding-top: 2%;
+    max-width: 600px;
+    margin: 0 auto;
+    margin-top: 12px;
+  }
+
+  .post-header-image {
+    background-size: cover;
+  }
+  textarea {
+    border: none;
+    outline: none;
+  }
+  ::ng-deep mat-card-header {
+
+  }
+

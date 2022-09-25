@@ -13,19 +13,24 @@ const dataBase  = new Sequelize('testdb', 'root', 'root', {
     }
   });
 
+
 dataBase.authenticate().then(() => {
     console.log("Connexion Réussie");
 }).catch(error => {
     console.log("Impossible de se connecter à la base de données" + error)
 })
-
 const User = userModel(dataBase, DataTypes);
 const Post = postModel(dataBase, DataTypes);
 const Comment = CommentModel(dataBase, DataTypes);
+Comment.belongsTo(Post);
+User.hasMany(Comment);
+User.hasMany(Post);
 const initDb = () => {
     return dataBase.sync({ force: true }).then(() => {
         bcrypt.hash(`root`, 10).then((hash) => {
             User.create({
+                firstName: "Admin",
+                lastName: "Admin",
                 email: `root@gmail.com`,
                 pseudo: `root`,
                 password: hash,

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import {Router} from "@angular/router";
+import {UserModelResponse} from "../../models/user-response.model";
 
 @Component({
   selector: 'app-login',
@@ -36,9 +37,7 @@ export class LoginComponent implements OnInit {
     ) {}
 
   login(): void {
-    console.log('Bojour les amis')
-    console.log(this.mail);
-    this.http.post('http://localhost:3000/api/user/login',
+    this.http.post<UserModelResponse>('http://localhost:3000/api/user/login',
       {
         email: this.mail,
         password: this.motPass,
@@ -48,12 +47,11 @@ export class LoginComponent implements OnInit {
           "Content-Type": "application/json",
         }
       }
-    ).toPromise().then(
-      user => {
-        console.log(user);
-        this.route.navigate(['/home']);
-      }
-    )
+    ).subscribe(user => {
+      console.log(user.token)
+      localStorage.setItem("token", user.token);
+      this.route.navigate(['/home'])
+    })
   }
 
   ngOnInit(): void {

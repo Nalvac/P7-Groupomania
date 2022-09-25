@@ -8,10 +8,6 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        postId: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-        },
         commenterId: {
             type: DataTypes.INTEGER,
             allowNull: false,

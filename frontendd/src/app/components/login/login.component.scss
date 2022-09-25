@@ -18,10 +18,10 @@
 label {
     margin-bottom: 4px;
     margin-top: 8px;
-    color: gray;
+    color: black;
     text-transform: uppercase;
     font-size: 13px;
-    line-height: 16px;
+    line-height: 24px;
 
   }
   input {
@@ -29,13 +29,11 @@ label {
     height: 40px;
     width: 100%;
     box-sizing: border-box;
-    border-radius: 4px;
-    color: black;
   }
 
   .login-form {
     width: 520px;
-    height: 393px;
+    height: 340px;
     border-radius: 16px;
     background-color: #fff;
     padding: 30px;

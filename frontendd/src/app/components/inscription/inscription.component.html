@@ -1,0 +1,41 @@
+<div class="signUp-container">
+  <div  [formGroup]="inscriptionForm" class="signUp-form">
+    <div style="width: 300px; height: 100px; margin: 0 auto;">
+      <img  alt="Logo" style="width: 100%; height: auto; margin-top: -40%;" src="../../../assets/icon-left-font-monochrome-black.png">
+    </div>
+    <div>
+      <label>Nom</label>
+      <input formControlName="firstName">
+    </div>
+    <div>
+      <label>Prénom</label>
+      <input formControlName="lastName">
+    </div>
+    <div>
+      <label>Poste</label>
+      <input formControlName="poste">
+    </div>
+    <div>
+      <label>Pseudo</label>
+      <input formControlName="pseudo">
+    </div>
+    <div>
+      <label>Mail</label>
+      <input formControlName="mail">
+    </div>
+    <div>
+      <label>Mots de Passe</label>
+      <input formControlName="motDePasse">
+    </div>
+
+    <div style="display: flex; justify-content: end; margin-top: 5%">
+    <span>
+      Vous avez déjà un compte ? /
+    </span>
+      <a href="">Connexion</a>
+    </div>
+    <div style="display: flex; justify-content: center; margin-top: 10%;">
+      <button mat-stroked-button class="signUp-button"  (click)="singUp()">Inscription</button>
+    </div>
+  </div>
+</div>

@@ -17,10 +17,10 @@ exports.addPost = (req, res, next) => {
     const posterId = req.body.posterId;
     const postProfil = req.body.postProfil;
     console.log(req.file)
-    if (req.file) {
+    if (req.body.imgUrl) {
 
         console.log(req.file)
-        const file = `${req.file.filename}`;
+        const file = `${req.body.imgUrl}`;
         Post.create({
                 // création d'un post avec un fichier image
                 author: author,
@@ -55,7 +55,7 @@ exports.addPost = (req, res, next) => {
                 return res.status(201).json({ message, data: post });
             })
             .catch((error) => {
-                if (error instanceof ValidationError) {
+                if (error) {
                     return res.status(400).json({ message: error.message, data: error });
                 }
                 const message =

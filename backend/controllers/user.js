@@ -7,6 +7,8 @@ const jwt = require('jsonwebtoken')
 exports.signUp = (req, res, next) => {
     bcrypt.hash(req.body.password, 10).then((hash) => {
         User.create({
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
             email: req.body.email,
             pseudo: req.body.pseudo,
             password: hash,
@@ -146,3 +148,15 @@ exports.deleteUser = (req, res, next) => {
             return res.status(500).json({ message, data: error });
         });
 };
+
+exports.user = (req, res, next) => {
+    User.findByPk(req.params.id)
+    .then(user => {
+        const message = 'Utilisateur retrouver avec succès';
+        return res.status(200).json({message, data: user})
+    })
+    .catch(error => {
+        const message = 'Utilisateur non retrouvé';
+        return res.status(500).json({message, data: error})
+    })
+}

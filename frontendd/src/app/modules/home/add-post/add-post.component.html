@@ -1,0 +1,40 @@
+
+  <div style="width: 100%; margin: 0 auto; padding-top: 5%">
+    <mat-card class="post-card">
+      <mat-card-header>
+        <div
+          mat-card-avatar
+          [style.background]="'url(' + user.imgProfil + ')'"
+          [style.background-size]="'cover'"
+        >
+        </div>
+        <mat-card-title>{{user.lastName}} {{user.firstName}}</mat-card-title>
+        <mat-card-subtitle>{{user.pseudo}}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content [formGroup]="postFormGroup">
+        <mat-form-field
+          floatLabel="never" class="display-block" style="position: relative; width: 100%;">
+            <textarea
+              formControlName="postDesc"
+              rows="3"
+              cols="80"
+              matInput placeholder="Quoi de new ?"
+            ></textarea>
+          <button (click)="upload.click()" style="position: absolute;right: 20px;" mat-button><mat-icon > attach_file</mat-icon></button>
+          <input formControlName="postFileName" hidden="true" type="file" (change)="getUploadFile($event)" class="file-upload" #upload>
+        </mat-form-field>
+        <div *ngIf="postFile !== ''" style="position: relative">
+          <button
+            style="position: absolute; right: 0px; top: 10px;"
+            mat-button
+            (click)="clearFile()"
+          ><mat-icon>clear</mat-icon></button>
+          <img mat-card-image  [src]="'assets/images/' + postFile" alt="Photo of a Shiba Inu">
+        </div>
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button mat-raised-button  color="warn" >Annuler</button>
+        <button mat-raised-button [disabled]="!postFormGroup.valid" color="primary" (click)="addPost()">Envoyer</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>

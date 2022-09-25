@@ -1,0 +1,48 @@
+:host {
+  height: 100%;
+  width: 100%;
+}
+
+.signUp-container {
+  height: 100%;
+  background-image: url(../../../assets/bg-login-signup.jpg);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center center;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+label {
+  margin-bottom: 4px;
+  margin-top: 8px;
+  color: black;
+  text-transform: uppercase;
+  font-size: 13px;
+  line-height: 24px;
+
+}
+input {
+  padding: 11px 16px;
+  height: 40px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.signUp-form {
+  width: 520px;
+  height: 520px;
+  border-radius: 16px;
+  background-color: #fff;
+  padding: 30px;
+}
+.signUp-button {
+  background-color: #3f51b5!important;
+  color: #fff;
+}
+
+a {
+  text-decoration: none;
+}
