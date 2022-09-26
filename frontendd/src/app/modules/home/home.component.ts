@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {ThemePalette} from "@angular/material/core";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-home',
@@ -26,8 +27,9 @@ export class HomeComponent implements OnInit {
     }
   ];
   activeLink = this.links[0];
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private route: Router) { }
   ngOnInit(): void {
+    this.route.navigate(['home/post']);
     this.user();
   }
 

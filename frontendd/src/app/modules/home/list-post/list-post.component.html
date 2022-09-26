@@ -33,17 +33,37 @@
       <mat-card-actions>
         <button mat-button>
           <i class="fa-solid fa-thumbs-up"></i>
-          LIKE
+          LIKE(0)
         </button>
-        <button mat-button>
+        <button mat-button (click)="comment.expanded = !comment.expanded">
           <i class="fa-solid fa-comment"></i>
-          Commenter
+          Commenter(0)
         </button>
         <button mat-button>
           <i class="fa-solid fa-share"></i>
           Partager
         </button>
       </mat-card-actions>
+      <mat-accordion>
+        <mat-expansion-panel  #comment hideToggle>
+          <div style="border-bottom: solid 1px gray;">
+            <p style="padding: 16px">Nom Prenom</p>
+            <span  style="padding: 16px">Description</span>
+          </div>
+          <div style="border-bottom: solid 1px gray;">
+            <p style="padding: 16px">Nom Prenom</p>
+            <span  style="padding: 16px">Description</span>
+          </div>
+          <div  style="padding: 16px; display: flex">
+            <textarea
+              rows="1"
+              cols="80"
+              matInput placeholder="Écrivez un commentaire"
+            ></textarea>
+            <button [disableRipple]="true" mat-button ><i class="fa-solid fa-paper-plane"></i></button>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
     </mat-card>
 
 </div>

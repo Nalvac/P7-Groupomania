@@ -3,12 +3,11 @@ import {AccueilTabs} from "./accueil-tabs/accueil-tabs";
 import {AddPostComponent} from "./add-post/add-post.component";
 import {ListPostComponent} from "./list-post/list-post.component";
 import {NgModule} from "@angular/core";
-import {HomeComponent} from "./home.component";
 
 const routes : Routes = [
   {
     path: '',
-    component: HomeComponent,
+    component: ListPostComponent,
   },
   {
     path: '',

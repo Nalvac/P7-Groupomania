@@ -16,6 +16,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {AddPostComponent} from "./add-post/add-post.component";
 import {CommonModule} from "@angular/common";
 import {MatMenuModule} from "@angular/material/menu";
+import {MatExpansionModule} from "@angular/material/expansion";
 
 @NgModule({
   imports: [
@@ -31,6 +32,7 @@ import {MatMenuModule} from "@angular/material/menu";
     MatIconModule,
     CommonModule,
     MatMenuModule,
+    MatExpansionModule,
   ],
   declarations: [
     HomeHeaderComponent,
